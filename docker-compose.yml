@@ -1,0 +1,44 @@
+version: '3.5'
+
+services:
+    php:
+        build:
+            context: .
+            dockerfile: docker/php/Dockerfile
+            args:
+                TIMEZONE: ${TIMEZONE}
+        container_name: sf6_php
+        volumes:
+            - .:/var/www/api-rest/
+        networks:
+            - symfony
+    nginx:
+        build:
+            context: .
+            dockerfile: docker/nginx/Dockerfile
+        container_name: sf6_nginx
+        volumes:
+            - .:/var/www/api-rest/
+        ports:
+            - 80:80
+        networks:
+            - symfony
+    db:
+        build:
+            context: .
+            dockerfile: docker/db/Dockerfile
+        container_name: sf6_db
+        volumes:
+            - ./docker/db/data:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: 'root'
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+        ports:
+            - 3306:3306
+        networks:
+            - symfony
+            
+networks:
+    symfony:
