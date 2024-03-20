@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
@@ -19,6 +21,7 @@ class User implements UserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
+    #[Assert\Email(message: 'The email {{ value }} is not a valid.')]
     private ?string $email = null;
 
     /**
@@ -28,6 +31,7 @@ class User implements UserInterface
     private array $roles = [];
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'The name not can be empty')]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
