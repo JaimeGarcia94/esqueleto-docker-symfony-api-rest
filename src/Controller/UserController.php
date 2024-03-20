@@ -26,8 +26,63 @@ class UserController extends AbstractController
     public function test(): Response
     {
         return new Response(
-            '<html><body>Acabas de acceder a la Api Rest el usuario de test</body></html>'
+            '<html><body>Acabas de acceder al usuario de test de la API REST</body></html>'
         );
+    }
+
+    #[Route('v1/users', name: 'app_v1_users', methods: ['GET'])]
+    public function list(Request $request): Response
+    {
+        $users = $this->em->getRepository(User::class)->findAll();
+        $data = [];
+
+        foreach($users as $user){
+            $id = $user->getId();
+            $name = $user->getName();
+            $email = $user->getEmail();
+            $createdAt = $user->getCreatedAt();
+            $updatedAt = $user->getUpdatedAt();
+
+            $data[] = [
+                'id' => $id,
+                'name' => $name,
+                'email' => $email,
+                'createdAt' => $createdAt,
+                'updatedAt' => $updatedAt
+            ];
+        }
+
+        $array = [
+            "data" => $data
+        ];
+        
+        return new Response(json_encode($array));   
+    }
+
+    #[Route('v1/user/{id}', name: 'app_v1_user', methods: ['GET'])]
+    public function user(Request $request, $id): Response
+    {
+        $user = $this->em->getRepository(User::class)->findOneById($id);
+        $data = [];
+        $id = $user->getId();
+        $name = $user->getName();
+        $email = $user->getEmail();
+        $createdAt = $user->getCreatedAt();
+        $updatedAt = $user->getUpdatedAt();
+
+        $data[] = [
+            'id' => $id,
+            'name' => $name,
+            'email' => $email,
+            'createdAt' => $createdAt,
+            'updatedAt' => $updatedAt
+        ];
+
+        $array = [
+            "data" => $data
+        ];
+        
+        return new Response(json_encode($array));   
     }
 
     #[Route('v1/user/create', name: 'app_v1_user_create', methods: ['POST'])]
@@ -78,7 +133,7 @@ class UserController extends AbstractController
             return new Response($msgError[0]);
         }
 
-        $user = $this->em->getRepository(User::class)->findOneByRow($id);
+        $user = $this->em->getRepository(User::class)->findOneById($id);
 
         if(is_null($user)) {
             return new Response($msgError[1]);

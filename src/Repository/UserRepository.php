@@ -22,17 +22,17 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function findOneByRow($userId): ?User
-    {
-        return $this->createQueryBuilder('w')
-            ->andWhere('w.id = :userId')
-            ->orderBy('w.id','DESC')
-            ->setMaxResults(1)
-            ->setParameter('userId', $userId)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
+    // public function findOneByRow($userId): ?User
+    // {
+    //     return $this->createQueryBuilder('w')
+    //         ->andWhere('w.id = :userId')
+    //         ->orderBy('w.id','DESC')
+    //         ->setMaxResults(1)
+    //         ->setParameter('userId', $userId)
+    //         ->getQuery()
+    //         ->getOneOrNullResult()
+    //     ;
+    // }
 
     //    /**
     //     * @return User[] Returns an array of User objects
