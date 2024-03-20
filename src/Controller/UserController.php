@@ -22,7 +22,7 @@ class UserController extends AbstractController
         $this->validator = $validator;
     }
 
-    #[Route('/user/test', name: 'app_user_test', methods: ['GET'])]
+    #[Route('v1/user/test', name: 'app_v1_user_test', methods: ['GET'])]
     public function test(): Response
     {
         return new Response(
@@ -30,7 +30,7 @@ class UserController extends AbstractController
         );
     }
 
-    #[Route('/user/create', name: 'app_user_create', methods: ['POST'])]
+    #[Route('v1/user/create', name: 'app_v1_user_create', methods: ['POST'])]
     public function create(Request $request): Response
     {
         $email = $request->query->get('email');
@@ -64,7 +64,7 @@ class UserController extends AbstractController
         return new Response($msg);
     }
 
-    #[Route('/user/update/{id}', name: 'app_user_update', methods: ['PUT'])]
+    #[Route('v1/user/update/{id}', name: 'app_v1_user_update', methods: ['PUT'])]
     public function update(Request $request, $id): Response
     {
         $email = $request->query->get('email');
@@ -103,7 +103,7 @@ class UserController extends AbstractController
         return new Response($msg);
     }
 
-    #[Route('/user/delete/{id}', name: 'app_user_delete', methods: ['DELETE'])]
+    #[Route('v1/user/delete/{id}', name: 'app_v1_user_delete', methods: ['DELETE'])]
     public function delete($id): Response
     {
         $msg = "El usuario se ha borrado correctamente.";
