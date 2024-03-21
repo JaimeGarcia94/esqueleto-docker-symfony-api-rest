@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\WorkEntryRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: WorkEntryRepository::class)]
 class WorkEntry
@@ -24,6 +25,7 @@ class WorkEntry
     private ?\DateTimeInterface $deletedAt = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\NotBlank(message: 'The date not can be empty')]
     private ?\DateTimeInterface $startDate = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
@@ -31,6 +33,7 @@ class WorkEntry
 
     #[ORM\ManyToOne(inversedBy: 'worksEntry')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank(message: 'The user not can be empty or not exists')]
     private ?User $user = null;
 
     public function getId(): ?int

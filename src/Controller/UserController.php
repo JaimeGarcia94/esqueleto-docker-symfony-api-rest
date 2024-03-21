@@ -63,6 +63,12 @@ class UserController extends AbstractController
     public function user(Request $request, $id): Response
     {
         $user = $this->em->getRepository(User::class)->findOneById($id);
+        $msgError = "No existe el ID del usuario en la BD. Por favor introduzca uno válido.";
+
+        if(empty($user)) { 
+            return new Response($msgError);
+        }
+
         $data = [];
         $id = $user->getId();
         $name = $user->getName();
