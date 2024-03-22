@@ -21,6 +21,18 @@ class WorkEntryRepository extends ServiceEntityRepository
         parent::__construct($registry, WorkEntry::class);
     }
 
+    public function findOneByRow($workEntryId): ?WorkEntry
+    {
+        return $this->createQueryBuilder('w')
+            ->andWhere('w.id = :workEntryId')
+            ->orderBy('w.id','DESC')
+            ->setMaxResults(1)
+            ->setParameter('workEntryId', $workEntryId)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
     //    /**
     //     * @return WorkEntry[] Returns an array of WorkEntry objects
     //     */

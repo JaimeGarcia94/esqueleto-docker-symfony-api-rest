@@ -173,6 +173,22 @@ class WorkEntryController extends AbstractController
     #[Route('v1/work-entry/delete/{id}', name: 'app_v1_work_entry_delete', methods: ['DELETE'])]
     public function delete($id): Response
     {
-        
+        $msg = "El registro se ha borrado correctamente.";
+        $msgError = ["No se puede borrar un registro sin ID.", "El registro no existe en la BD."];
+
+        if(empty($id) || !is_numeric($id)){
+            return new Response($msgError[0]);
+        }
+
+        $workEntry = $this->em->getRepository(WorkEntry::class)->findOneByRow($id);
+
+        if(is_null($workEntry)) {
+            return new Response($msgError[1]);
+        }
+
+        $this->em->remove($workEntry);
+        $this->em->flush();
+
+        return new Response($msg);
     }
 }
