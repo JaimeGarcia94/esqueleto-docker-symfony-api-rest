@@ -88,7 +88,7 @@ class WorkEntryController extends AbstractController
         return new Response(json_encode($array));    
     }
 
-    #[Route('v1/work-entry/create', name: 'app_v1_user_create', methods: ['POST'])]
+    #[Route('v1/work-entry/create', name: 'app_v1_work_entry_create', methods: ['POST'])]
     public function create(Request $request): Response
     {
         $userId = $request->query->get('userId');
@@ -98,7 +98,7 @@ class WorkEntryController extends AbstractController
         $endDate = $request->query->get('endDate');
         $endDateObject = empty($endDate) ? null : new DateTime($endDate);
         $user = $this->em->getRepository(User::class)->findOneById($userId);
-        $msg = "La fecha de entrada se ha creado correctamente.";
+        $msg = "La fecha se ha creado correctamente.";
         $msgError = ["No se puede crear la fecha de entrada sin el ID del usuario o la fecha de acceso. Revise los datos a introducir.", "La fecha de salida no puede ser inferior a la de entrada."];
 
         if(empty($userId) || empty($startDate)){
@@ -131,13 +131,46 @@ class WorkEntryController extends AbstractController
         return new Response($msg);
     }
 
-    #[Route('v1/work-entry/update/{id}', name: 'app_v1_user_update', methods: ['PUT'])]
+    #[Route('v1/work-entry/update/{id}', name: 'app_v1_work_entry_update', methods: ['PUT'])]
     public function update(Request $request, $id): Response
     {
+        $date = new DateTime();
+        $startDate = $request->query->get('startDate');
+        $startDateObject = new DateTime($startDate);
+        $endDate = $request->query->get('endDate');
+        $endDateObject = empty($endDate) ? null : new DateTime($endDate);
+        $msg = "La fecha se ha actualizado correctamente.";
+        $msgError = ["No se puede actualizar la fecha de acceso. Revise los datos a introducir.", "La fecha de salida no puede ser inferior a la de entrada."];
+
+        if(empty($startDate)){
+            return new Response($msgError[0]);
+        }
         
+        if(!empty($endDateObject)){
+            if($endDateObject < $startDateObject) {
+                return new Response($msgError[1]);
+            }
+        }        
+
+        $workEntry = $this->em->getRepository(WorkEntry::class)->findOneById($id);
+        $workEntry->setUpdatedAt($date);
+        $workEntry->setDeletedAt(null);
+        $workEntry->setStartDate($startDateObject);
+        $workEntry->setEndDate($endDateObject);
+
+        $errors = $this->validator->validate($workEntry);
+
+        if (count($errors) > 0) {    
+            return new Response($errors);
+        }
+
+        $this->em->persist($workEntry);
+        $this->em->flush();
+
+        return new Response($msg);
     }
 
-    #[Route('v1/work-entry/delete/{id}', name: 'app_v1_user_delete', methods: ['DELETE'])]
+    #[Route('v1/work-entry/delete/{id}', name: 'app_v1_work_entry_delete', methods: ['DELETE'])]
     public function delete($id): Response
     {
         
