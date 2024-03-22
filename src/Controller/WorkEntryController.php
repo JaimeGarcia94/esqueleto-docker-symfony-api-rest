@@ -95,12 +95,20 @@ class WorkEntryController extends AbstractController
         $date = new DateTime();
         $startDate = $request->query->get('startDate');
         $startDateObject = new DateTime($startDate);
+        $endDate = $request->query->get('endDate');
+        $endDateObject = empty($endDate) ? null : new DateTime($endDate);
         $user = $this->em->getRepository(User::class)->findOneById($userId);
         $msg = "La fecha de entrada se ha creado correctamente.";
-        $msgError = "No se puede crear la fecha de entrada sin el ID del usuario o la fecha de acceso. Revise los datos a introducir.";
+        $msgError = ["No se puede crear la fecha de entrada sin el ID del usuario o la fecha de acceso. Revise los datos a introducir.", "La fecha de salida no puede ser inferior a la de entrada."];
 
         if(empty($userId) || empty($startDate)){
-            return new Response($msgError);
+            return new Response($msgError[0]);
+        }
+        
+        if(!empty($endDateObject)){
+            if($endDateObject < $startDateObject) {
+                return new Response($msgError[1]);
+            }
         }        
 
         $workEntry = new WorkEntry();
@@ -109,7 +117,7 @@ class WorkEntryController extends AbstractController
         $workEntry->setUpdatedAt($date);
         $workEntry->setDeletedAt(null);
         $workEntry->setStartDate($startDateObject);
-        $workEntry->setEndDate(null);
+        $workEntry->setEndDate($endDateObject);
 
         $errors = $this->validator->validate($workEntry);
 
