@@ -3,15 +3,20 @@
 namespace App\Tests\Funtional\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserControllerTest extends WebTestCase
 {
-    public function testSomething(): void
+    private const ENDPOINT_ALL_USERS = '/v1/users';
+
+    public function testAllUsers(): void
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/');
+        $client->request(Request::METHOD_GET, self::ENDPOINT_ALL_USERS);
 
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'Hello World');
+        $response = $client->getResponse();
+
+        self::assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 }
