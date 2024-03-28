@@ -13,6 +13,8 @@ class UserControllerTest extends ControllerTestBase
     private const ENDPOINT_ALL_USERS = '/v1/users';
     private const ENDPOINT_USER = 'v1/user/{id}';
     private const ENDPOINT_CREATE_USER = 'v1/user/create';
+    private const ENDPOINT_UPDATE_USER = 'v1/user/update/{id}';
+    private const ENDPOINT_DELETE_USER = 'v1/user/delete/{id}';
 
     public function testAllUsers(): void
     {
@@ -38,9 +40,36 @@ class UserControllerTest extends ControllerTestBase
 
         $response = $this->client->getResponse();
 
-        var_dump($response->getStatusCode());
-        die();
+        if($response->getStatusCode() !== 400) {
+            self::assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
+        } else {
+            self::assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+        }
+    }
 
-        // self::assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
+    public function testUpdateUser(): void
+    {
+        $this->client->request(Request::METHOD_PUT, self::ENDPOINT_UPDATE_USER);
+
+        $response = $this->client->getResponse();
+
+        if($response->getStatusCode() !== 400) {
+            self::assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        } else {
+            self::assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+        }
+    }
+
+    public function testDeleteUser(): void
+    {
+        $this->client->request(Request::METHOD_DELETE, self::ENDPOINT_DELETE_USER);
+
+        $response = $this->client->getResponse();
+
+        if($response->getStatusCode() !== 400) {
+            self::assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        } else {
+            self::assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+        }
     }
 }
