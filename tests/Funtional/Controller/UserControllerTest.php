@@ -39,10 +39,17 @@ class UserControllerTest extends ControllerTestBase
         $this->client->request(Request::METHOD_POST, self::ENDPOINT_CREATE_USER);
 
         $response = $this->client->getResponse();
+        $responseData = \json_decode($response->getContent(), true);
 
         if($response->getStatusCode() !== 400) {
+            self::assertNotEmpty($this->data["email"], 'Has data');
+            self::assertNotEmpty($this->data["name"], 'Has data');
+            self::assertRegExp('/^.+\@\S+\.\S+$/', $this->data["email"]);
+            self::assertIsString($this->data["name"], 'Name is string');
+            self::assertEquals('El usuario se ha creado correctamente', $responseData['msg']);
             self::assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
         } else {
+            self::assertEquals('No se puede crear un usuario sin: email o name. Revise los datos a introducir', $responseData['msgError']);
             self::assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
         }
     }
