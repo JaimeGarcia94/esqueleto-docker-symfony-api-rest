@@ -22,7 +22,7 @@ class ControllerTestBase extends WebTestCase
             'id' => 1,
             'email' => 'prueba@gmail.com',
             'name' => 'jaime',
-            'date' => new DateTime(),
+            'userId' => 1
         ];
     }
 

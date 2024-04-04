@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 class UserControllerTest extends ControllerTestBase
 {
     private const ENDPOINT_USER_DEFAULT = 'v1/user/test';
-    private const ENDPOINT_ALL_USERS = '/v1/users';
+    private const ENDPOINT_ALL_USERS = 'v1/users';
     private const ENDPOINT_USER = 'v1/user/{id}';
     private const ENDPOINT_CREATE_USER = 'v1/user/create';
     private const ENDPOINT_UPDATE_USER = 'v1/user/update/{id}';
