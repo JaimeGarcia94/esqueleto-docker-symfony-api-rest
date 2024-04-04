@@ -6,6 +6,7 @@ namespace App\Tests\Funtional;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\AbstractBrowser;
+use DateTime;
 
 class ControllerTestBase extends WebTestCase
 {
@@ -18,8 +19,10 @@ class ControllerTestBase extends WebTestCase
         $this->client->setServerParameter('CONTENT_TYPE', 'application/json');
 
         $this->data = [
+            'id' => 1,
             'email' => 'prueba@gmail.com',
-            'name' => 'jaime'
+            'name' => 'jaime',
+            'date' => new DateTime(),
         ];
     }
 
