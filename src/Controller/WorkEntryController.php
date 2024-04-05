@@ -94,7 +94,7 @@ class WorkEntryController extends AbstractController
     {
         $userId = $request->query->get('userId');
         $date = new DateTime();
-        $startDate = $request->query->get('startDate');
+        $startDate = empty($request->query->get('startDate')) ? '' : $request->query->get('startDate');
         $startDateObject = new DateTime($startDate);
         $endDate = $request->query->get('endDate');
         $endDateObject = empty($endDate) ? null : new DateTime($endDate);
@@ -137,7 +137,7 @@ class WorkEntryController extends AbstractController
     public function update(Request $request, $id): JsonResponse
     {
         $date = new DateTime();
-        $startDate = $request->query->get('startDate');
+        $startDate = empty($request->query->get('startDate')) ? '' : $request->query->get('startDate');
         $startDateObject = new DateTime($startDate);
         $endDate = $request->query->get('endDate');
         $endDateObject = empty($endDate) ? null : new DateTime($endDate);
