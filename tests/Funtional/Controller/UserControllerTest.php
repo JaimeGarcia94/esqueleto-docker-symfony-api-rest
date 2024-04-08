@@ -24,7 +24,7 @@ class UserControllerTest extends ControllerTestBase
         $response = $this->client->getResponse();
         $responseData = \json_decode($response->getContent(), true);
 
-        self::assertEquals('Acabas de acceder al usuario de test de la API REST', $responseData['msg']);
+        self::assertEquals('You have just accessed the test user of the REST API.', $responseData['msg']);
         self::assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
@@ -49,7 +49,7 @@ class UserControllerTest extends ControllerTestBase
             self::assertIsInt($this->data["id"], 'Id is a integer');
             self::assertEquals(Response::HTTP_OK, $response->getStatusCode());
         } else {
-            self::assertEquals('No existe el ID del usuario en la BD. Por favor introduzca uno válido', $responseData['msgError']);
+            self::assertEquals('The user ID does not exist in the database. Please enter a valid one', $responseData['msgError']);
             self::assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
         }
     }
@@ -66,10 +66,10 @@ class UserControllerTest extends ControllerTestBase
             self::assertNotEmpty($this->data["name"], 'Has data');
             self::assertRegExp('/^.+\@\S+\.\S+$/', $this->data["email"]);
             self::assertIsString($this->data["name"], 'Name is a string');
-            self::assertEquals('El usuario se ha creado correctamente', $responseData['msg']);
+            self::assertEquals("The user has been successfully created", $responseData['msg']);
             self::assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
         } else {
-            self::assertEquals('No se puede crear un usuario sin: email o name. Revise los datos a introducir', $responseData['msgError']);
+            self::assertEquals("You can't create a user without: email or name. Check the data to be entered", $responseData['msgError']);
             self::assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
         }
     }
@@ -88,7 +88,7 @@ class UserControllerTest extends ControllerTestBase
             self::assertIsInt($this->data["id"], 'Id is a integer');
             self::assertRegExp('/^.+\@\S+\.\S+$/', $this->data["email"]);
             self::assertIsString($this->data["name"], 'Name is a string');
-            self::assertEquals('El usuario se ha actualizado correctamente', $responseData['msg']);
+            self::assertEquals('The user has been successfully updated', $responseData['msg']);
             self::assertEquals(Response::HTTP_OK, $response->getStatusCode());
         } else {
             self::assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
@@ -105,7 +105,7 @@ class UserControllerTest extends ControllerTestBase
         if($response->getStatusCode() !== 400) {
             self::assertNotEmpty($this->data["id"], 'Has data');
             self::assertIsInt($this->data["id"], 'Id is a integer');
-            self::assertEquals('El usuario se ha borrado correctamente', $responseData['msg']);
+            self::assertEquals('The user has been successfully deleted', $responseData['msg']);
             self::assertEquals(Response::HTTP_OK, $response->getStatusCode());
         } else {
             self::assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());

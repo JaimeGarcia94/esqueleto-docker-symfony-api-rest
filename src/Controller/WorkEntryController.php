@@ -59,7 +59,7 @@ class WorkEntryController extends AbstractController
     public function workEntry(Request $request, $id): JsonResponse
     {
         $workEntry = $this->em->getRepository(WorkEntry::class)->findOneById($id);
-        $msgError = "No existe registro de fecha en la BD con este ID. Por favor introduzca uno válido";
+        $msgError = "There is no date record in the DB with this ID. Please enter a valid one";
 
         if(empty($workEntry)) { 
             return new JsonResponse(['msgError' => $msgError], Response::HTTP_BAD_REQUEST);
@@ -99,8 +99,8 @@ class WorkEntryController extends AbstractController
         $endDate = $request->query->get('endDate');
         $endDateObject = empty($endDate) ? null : new DateTime($endDate);
         $user = $this->em->getRepository(User::class)->findOneById($userId);
-        $msg = "La fecha se ha creado correctamente";
-        $msgError = ["No se puede crear la fecha de entrada sin el userId o el startDate. Revise los datos a introducir", "La fecha de salida no puede ser inferior a la de entrada"];
+        $msg = "The date has been created correctly";
+        $msgError = ["You can't create the input date without the userId or the startDate. Check the data to be entered", "The date of departure can't be less than the date of entry."];
 
         if(empty($userId) || empty($startDate)){
             return new JsonResponse(['msgError' => $msgError[0]], Response::HTTP_BAD_REQUEST);
@@ -141,8 +141,8 @@ class WorkEntryController extends AbstractController
         $startDateObject = new DateTime($startDate);
         $endDate = $request->query->get('endDate');
         $endDateObject = empty($endDate) ? null : new DateTime($endDate);
-        $msg = "La fecha se ha actualizado correctamente";
-        $msgError = ["No se puede actualizar la fecha de acceso. Revise los datos a introducir", "La fecha de salida no puede ser inferior a la de entrada"];
+        $msg = "The date has been updated correctly";
+        $msgError = ["The access date can't be updated. Check the data to be entered", "The date of departure can't be less than the date of entry."];
 
         if(empty($startDate)){
             return new JsonResponse(['msgError' => $msgError[0]], Response::HTTP_BAD_REQUEST);
@@ -176,8 +176,8 @@ class WorkEntryController extends AbstractController
     #[Route('v1/work-entry/delete/{id}', name: 'app_v1_work_entry_delete', methods: ['DELETE'])]
     public function delete($id): JsonResponse
     {
-        $msg = "El registro se ha borrado correctamente";
-        $msgError = ["No se puede borrar un registro sin ID", "El registro no existe en la BD"];
+        $msg = "The record has been successfully deleted";
+        $msgError = ["Can't delete a record without an ID", "The record does not exist in the DB"];
 
         if(empty($id) || !is_numeric($id)){
             return new JsonResponse(['msgError' => $msgError[0]], Response::HTTP_BAD_REQUEST);

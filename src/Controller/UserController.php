@@ -26,7 +26,7 @@ class UserController extends AbstractController
     #[Route('v1/user/test', name: 'app_v1_user_test', methods: ['GET'])]
     public function test(): JsonResponse
     {
-        $msg = "Acabas de acceder al usuario de test de la API REST";
+        $msg = "You have just accessed the test user of the REST API.";
 
         return new JsonResponse(['msg' => $msg], Response::HTTP_OK);
     }
@@ -64,7 +64,7 @@ class UserController extends AbstractController
     public function user(Request $request, $id): JsonResponse
     {
         $user = $this->em->getRepository(User::class)->findOneById($id);
-        $msgError = "No existe el ID del usuario en la BD. Por favor introduzca uno válido";
+        $msgError = "The user ID does not exist in the database. Please enter a valid one";
 
         if(empty($user)) { 
             return new JsonResponse(['msgError' => $msgError], Response::HTTP_BAD_REQUEST);
@@ -99,8 +99,8 @@ class UserController extends AbstractController
         $roles = ["ROL_USER"];
         $name = $request->query->get('name');
         $date = new DateTime();
-        $msg = "El usuario se ha creado correctamente";
-        $msgError = "No se puede crear un usuario sin: email o name. Revise los datos a introducir";
+        $msg = "The user has been successfully created";
+        $msgError = "You can't create a user without: email or name. Check the data to be entered";
 
         if(empty($email) || empty($name)){
             return new JsonResponse(['msgError' => $msgError], Response::HTTP_BAD_REQUEST);
@@ -134,8 +134,8 @@ class UserController extends AbstractController
         $roles = ["ROL_USER"];
         $name = $request->query->get('name');
         $date = new DateTime();
-        $msg = "El usuario se ha actualizado correctamente";
-        $msgError = ["No se puede actualizar un usuario sin: ID, email o nombre. Revise los datos a introducir", "El usuario no existe en la BD"];
+        $msg = "The user has been successfully updated";
+        $msgError = ["You can't update a user without: ID, email or name. Check the data to be entered", "The user does not exist in the DB"];
 
         if(empty($id) || !is_numeric($id) || empty($email) || empty($name)){
             return new JsonResponse(['msgError' => $msgError[0]], Response::HTTP_BAD_REQUEST);
@@ -170,8 +170,8 @@ class UserController extends AbstractController
     #[Route('v1/user/delete/{id}', name: 'app_v1_user_delete', methods: ['DELETE'])]
     public function delete($id): JsonResponse
     {
-        $msg = "El usuario se ha borrado correctamente";
-        $msgError = ["No se puede borrar un usuario sin ID", "El usuario no existe en la BD"];
+        $msg = "The user has been successfully deleted";
+        $msgError = ["You can't delete a user without an ID", "The user does not exist in the DB"];
 
         if(empty($id) || !is_numeric($id)){
             return new JsonResponse(['msgError' => $msgError[0]], Response::HTTP_BAD_REQUEST);

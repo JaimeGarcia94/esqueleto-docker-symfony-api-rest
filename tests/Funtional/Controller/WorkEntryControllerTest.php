@@ -35,7 +35,7 @@ class WorkEntryControllerTest extends ControllerTestBase
             self::assertIsInt($this->data["id"], 'Id is a integer');
             self::assertEquals(Response::HTTP_OK, $response->getStatusCode());
         } else {
-            self::assertEquals('No existe registro de fecha en la BD con este ID. Por favor introduzca uno válido', $responseData['msgError']);
+            self::assertEquals('There is no date record in the DB with this ID. Please enter a valid one', $responseData['msgError']);
             self::assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
         }
     }
@@ -50,7 +50,7 @@ class WorkEntryControllerTest extends ControllerTestBase
         if($response->getStatusCode() !== 400) {
             self::assertNotEmpty($this->data["userId"], 'Has data');
             self::assertIsInt($this->data["userId"], 'UserId is a integer');
-            self::assertEquals('La fecha se ha creado correctamente', $responseData['msg']);
+            self::assertEquals('The date has been created correctly', $responseData['msg']);
             self::assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
         } else {
             self::assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
@@ -67,7 +67,7 @@ class WorkEntryControllerTest extends ControllerTestBase
         if($response->getStatusCode() !== 400) {
             self::assertNotEmpty($this->data["id"], 'Has data');
             self::assertIsInt($this->data["id"], 'Id is a integer');
-            self::assertEquals('La fecha se ha actualizado correctamente', $responseData['msg']);
+            self::assertEquals('The date has been updated correctly', $responseData['msg']);
             self::assertEquals(Response::HTTP_OK, $response->getStatusCode());
         } else {
             self::assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
@@ -84,7 +84,7 @@ class WorkEntryControllerTest extends ControllerTestBase
         if($response->getStatusCode() !== 400) {
             self::assertNotEmpty($this->data["id"], 'Has data');
             self::assertIsInt($this->data["id"], 'Id is a integer');
-            self::assertEquals('El registro se ha borrado correctamente', $responseData['msg']);
+            self::assertEquals('The record has been successfully deleted', $responseData['msg']);
             self::assertEquals(Response::HTTP_OK, $response->getStatusCode());
         } else {
             self::assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
