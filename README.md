@@ -1,4 +1,4 @@
-Este repositorio contiene una API-REST de registro de horas por parte de los usuarios. 
+Este repositorio contiene una API-REST de usuarios que pueden realizar fichajes de entrada y de salida.
 
 <h1>Infraestructura usada</h1>
 <ul>
