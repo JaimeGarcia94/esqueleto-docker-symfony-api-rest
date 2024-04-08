@@ -1,4 +1,4 @@
-Este repositorio contiene una API-REST de usuarios que pueden realizar fichajes de entrada y de salida.
+Este repositorio contiene una API-REST de usuarios que pueden realizar fichajes de entrada y de salida. Puedes crear, actualizar o borrar usuarios y sus respectivos fichajes de horas mediante varios endpoints que te proporciona la API.
 
 <h1>Infraestructura usada</h1>
 <ul>
